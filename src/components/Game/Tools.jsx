@@ -12,7 +12,7 @@ export default Tools;
 
 const Temp = styled.div`
   width: 95%;
-  height: 100px;
+  height: 150px;
   background-color: gray;
   margin: auto;
   margin-top: 20px;

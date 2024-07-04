@@ -8,8 +8,8 @@ import Palette from "../components/Game/Palette"
 
 const Game = () => {
   return(
-    <div className="game">
-      <div className="container">
+    <div className="inner">
+      <div className="game container">
         <div className="left-section">
           <User />
           <User />

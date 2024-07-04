@@ -85,6 +85,9 @@ const Canvas = () => {
                 onMouseDown={handleMouseDown}
                 onMousemove={handleMouseMove}
                 onMouseup={handleMouseUp}
+                onPointerDown={handleMouseDown}
+                onPointerMove={handleMouseMove}
+                onPointerUp={handleMouseUp}
             >
                 <Layer>
                     <Text text="Just start drawing" x={5} y={30} />

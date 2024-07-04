@@ -5,7 +5,7 @@ const Login = () => {
     console.log(import.meta.env.VITE_SOCKET_SERVER_URL);
     return (
         <div>
-            로그인 페이지111
+            로그인 페이지1113
             <button onClick={() => { window.location.href = KAKAO_AUTH_URL }}>
                 로그인 하기
             </button>

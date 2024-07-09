@@ -1,0 +1,45 @@
+{
+  "name": "react-board",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "export PORT=5173 && react-scripts start",
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@esbuild/darwin-arm64": "^0.23.0",
+    "axios": "^1.7.2",
+    "dayjs": "^1.11.11",
+    "dotenv": "^16.4.5",
+    "file-saver": "^2.0.5",
+    "fs": "^0.0.1-security",
+    "gsap": "^3.12.5",
+    "konva": "^9.3.1",
+    "react": "^18.2.0",
+    "react-circular-progressbar": "^2.1.0",
+    "react-countdown-circle-timer": "^3.2.1",
+    "react-dom": "^18.2.0",
+    "react-konva": "^18.2.10",
+    "react-router-dom": "^6.23.1",
+    "socket.io-client": "^4.7.5",
+    "styled-components": "^6.1.11",
+    "styled-reset": "^4.5.2",
+    "swiper": "^11.1.4",
+    "zustand": "^4.5.4",
+    "zustand-persist": "^0.4.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.66",
+    "@types/react-dom": "^18.2.22",
+    "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react": "^7.34.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.6",
+    "vite": "^5.2.0"
+  }
+}

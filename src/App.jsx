@@ -12,12 +12,10 @@ import Game2_remember from "./pages/game2/Game2_remember.jsx";
 import Game2_result from "./pages/game2/Game2_result.jsx";
 import Game3 from "./pages/game3/Game3.jsx";
 import Result from "./pages/result/Result.jsx";
-import Login from "./pages/oauth/Login.jsx";
 import Loading from "./components/loading/Loading.jsx";
-import Game1_vote from "./pages/game1/test/Game1_vote.jsx";
-import Game1_result from "./pages/game1/test/Game1_result.jsx";
+import Vote from "./pages/game1/Vote.jsx"
 import Profile from "./pages/home/Profile.jsx";
-import LoginHandler from "./api/oauth/LoginHandler.jsx";
+import LoginHandler from "./pages/oauth/LoginHandeler.jsx";
 import {KAKAO_AUTH_URL} from "./api/oauth/Oauth.js";
 
 function App() {
@@ -25,13 +23,12 @@ function App() {
   // 초대 받은 사람은 여기서 분류
   useEffect(() => {
     const currentUrl = new URL(window.location.href);
-    const urlPaths = currentUrl.pathname.split("/");      // URL 경로를 '/'로 분할
+    const urlPaths = currentUrl.pathname.split("/");                // URL 경로를 '/'로 분할
     const urlType = urlPaths[urlPaths.length - 2];                  // 마지막에서 두 번째 요소 가져오기
     const inviteRoomId = urlPaths[urlPaths.length - 1];             // 마지막 요소 가져오기
     if (urlType === "invite") {
       window.localStorage.setItem("inviteRoomId", inviteRoomId);
       window.localStorage.setItem("isInvited", "true");
-      console.log("초대받은 주소 : ", inviteRoomId);
       window.location.href = KAKAO_AUTH_URL;
     }
   }, []);
@@ -42,7 +39,6 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/login" element={<Login />} />
         <Route path="/lobby/:roomUrl" element={<Lobby />} />
 
         <Route path="/game1" element={<Game1 />} />

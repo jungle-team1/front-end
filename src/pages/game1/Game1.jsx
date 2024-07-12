@@ -18,9 +18,6 @@ const Game1 = () => {
 
   const [parentwidth, setParentWidth] = useState(0);
   const [parentheight,setParentHeight] = useState(0);
-
-  const {getSaveImg} = useCanvasStore();
-
   const  [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,

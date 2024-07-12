@@ -2,6 +2,9 @@ import './Drawing.css'
 import { useEffect, useRef, useState } from 'react';
 import {Pencil, TOOL_PENCIL, Line, TOOL_LINE, Ellipse, TOOL_ELLIPSE, Rectangle, TOOL_RECTANGLE} from './tools';
 import { useCanvasStore } from '../../../store/canvas/useCanvasStore';
+import useSocketStore from "../../../store/socket/useSocketStore.js";
+import useCatchLiarStore from "../../../store/game/useCatchLiarStore.js";
+import useRoomStore from "../../../store/room/useRoomStore.js";
 
 const toolsMap = {
     [TOOL_PENCIL]: Pencil,
@@ -11,31 +14,35 @@ const toolsMap = {
   };
 
 const Drawing = ({width, height}) => {
-    
     const canvasRef = useRef(null);
     const ctxRef = useRef(null);
     const toolRef = useRef(null);
-    const {tool, color, size, fillColor, clearBtnClick, setCanvas} = useCanvasStore();
+    let isClick = false;
 
-    const saveCanvas = () => {
-        const  link = document.createElement("a");
-        const canvas = canvasRef.current;
+    const { socket } = useSocketStore();
+    const {tool, color, size, fillColor, clearBtnClick, setCanvas, setTool} = useCanvasStore();
+    const { roomId } = useRoomStore();
+    const { isDrawing } = useCatchLiarStore();
 
-        link.download = "canvas.png";
-        link.href = canvas.toDataURL("image/png");
-        alert(link.href );
-        link.click();
-      }
-    
-    useEffect(() => { 
+    useEffect(() => {
         const canvas = canvasRef.current;
         setCanvas(canvas);
         ctxRef.current = canvas.getContext('2d');
-    }, [])
+    }, []);
 
     useEffect(() => {
         initTool(tool);
-    }, [tool])
+    }, [tool]);
+
+    useEffect(() => {
+        socket?.on('drawer_draw_start', handleDrawStart);
+        socket?.on('drawer_draw_move', handleDrawMove);
+
+        return () => {
+            socket?.off("drawer_draw_start", handleDrawStart);
+            socket?.off("drawer_draw_move", handleDrawMove);
+        };
+    }, [socket]);
 
     useEffect(() => {
         clearCanvas();
@@ -49,6 +56,16 @@ const Drawing = ({width, height}) => {
         toolRef.current = toolsMap[tool](ctxRef.current);
     }
 
+    const saveCanvas = () => {
+        const  link = document.createElement("a");
+        const canvas = canvasRef.current;
+
+        link.download = "canvas.png";
+        link.href = canvas.toDataURL("image/png");
+        alert(link.href );
+        link.click();
+    }
+
     const getCursorPosition = (e) => {
         const {top, left} = canvasRef.current.getBoundingClientRect();
         return {
@@ -59,22 +76,45 @@ const Drawing = ({width, height}) => {
 
     // 인자가 필요 없을 경우?
     const onMouseDown = (e) => {
+        isClick = true;
         const {x, y} = getCursorPosition(e);
-        tool == TOOL_PENCIL ?
+        console.log("onMouseDown : ", x, y);
+        tool === TOOL_PENCIL ?
             toolRef.current.onMouseDown(x, y, color, size) :
             toolRef.current.onMouseDown(x, y, color, size, fillColor);
+        socket?.emit('drawer_draw_start', { tool, xAxis: x, yAxis: y, color, size, fillColor, roomId });
     }
 
     const onMouseUp = (e) => {
+        isClick = false;
         const {x, y} = getCursorPosition(e);
+        console.log("onMouseUp : ", x, y);
         toolRef.current.onMouseUp(x, y);
     }
 
     const onMouseMove = (e) => {
+        if (!isClick) return;
         const {x, y} = getCursorPosition(e);
+        console.log("onMouseMove : ", x, y);
         toolRef.current.onMouseMove(x, y);
+        socket?.emit('drawer_draw_move', { tool, xAxis: x, yAxis: y, color, size, fillColor, roomId });
     }
 
+    const handleDrawStart = (data) => {
+        console.log(data);
+        const {tool, xAxis, yAxis, color, size, fillColor} = data;
+
+        setTool(tool);
+        tool === TOOL_PENCIL ?
+            toolRef.current.onMouseDown(xAxis, yAxis, color, size) :
+            toolRef.current.onMouseDown(xAxis, yAxis, color, size, fillColor);
+    }
+
+    const handleDrawMove = (data) => {
+        console.log(data);
+        const {tool, xAxis, yAxis, color, size, fillColor} = data;
+        toolRef.current.onMouseMove(xAxis, yAxis);
+    }
 
     return (
         <>

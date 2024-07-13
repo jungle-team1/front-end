@@ -14,7 +14,9 @@ import { useCanvasStore } from '../../store/canvas/useCanvasStore.js';
 
 const Game1 = () => {
   const navigate = useNavigate();
+
   const [searchParams] = useSearchParams();
+  const round = Number(searchParams.get('round'));
 
   const containerRef = useRef(null);
 
@@ -61,9 +63,8 @@ const Game1 = () => {
     // 서버 전달 로직 작성하기.
   }
 
-
   return(
-      <div className="inner">
+      <div className="inner" key={round}>
         <div className="game container">
           <div className="left-section">
             <User />
@@ -96,8 +97,8 @@ const Game1 = () => {
           <button className="quite-btn">DONE</button>
         </div>
       </div>
-    </div>
-  );
+</div>
+);
 };
 
 export default Game1;

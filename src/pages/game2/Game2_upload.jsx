@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import NewButton from "../../components/button/newButton";
 import useImagesStore from "../../store/image/useImagesStore.js";
 import User from "../../components/game/User.tsx";
@@ -53,47 +52,73 @@ const Game2_upload = () => {
     }
   }, [selectedImage]);
 
-  const sendToServer = async () => {
-    setClickSendBtn(true);
+const sendToServer = async () => {
+  setClickSendBtn(true);
 
+  console.log("Uploading form data:", uploadForm);
+  for (let [key, value] of uploadForm.entries()) {
+    console.log(key, value);
+  }
+
+  try {
     const uploadRes = await findDiff_upload(uploadForm);
+    console.log("Upload response:", uploadRes);
+    
     if (uploadRes.status === 200) {
       console.log("서버로 원본 이미지 전송 성공");
 
       const response = await findDiff_og(findDiffGameId, userId);
+      console.log("Original images response:", response);
+
       if (response.status === 200) {
-        setOriginalImages(response.data); // 여기서는 URL만 포함된 배열을 받습니다.
+        setOriginalImages(response.data);
       }
 
       navigate("/game2/remember/");
 
       setTimeout(async () => {
-        await findDiff_inpaint(inpaintForm);
+        console.log("Inpainting form data:", inpaintForm);
+        for (let [key, value] of inpaintForm.entries()) {
+          console.log(key, value);
+        }
+
+        const inpaintRes = await findDiff_inpaint(inpaintForm);
+        console.log("Inpaint response:", inpaintRes);
+
         const genResponse = await findDiff_gen(findDiffGameId, userId);
+        console.log("Generated images response:", genResponse);
+
         setGeneratedImages(genResponse.data);
       }, 0);
     }
-  };
+  } catch (error) {
+    console.error("Error in sendToServer:", error);
+  }
+};
 
-  const selectImage = (event) => {
-    const file = event.target.files[0];
-    const uploadForm = new FormData();
-    const inpaintForm = new FormData();
+const selectImage = (event) => {
+  const file = event.target.files[0];
+  const uploadForm = new FormData();
+  const inpaintForm = new FormData();
 
-    setSelectedImage(file);
+  setSelectedImage(file);
 
-    inpaintForm.append("image", file);
-    inpaintForm.append("roomId", roomId);
-    inpaintForm.append("userId", userId);
-    inpaintForm.append("prompt", "Modify safely.");
+  inpaintForm.append("image", file);
+  inpaintForm.append("roomId", roomId.toString());
+  inpaintForm.append("userId", userId.toString());
+  inpaintForm.append("prompt", "Modify safely.");
+  inpaintForm.append("maskX1", "0");
+  inpaintForm.append("maskY1", "0");
+  inpaintForm.append("maskX2", "0");
+  inpaintForm.append("maskY2", "0");
 
-    uploadForm.append("image", file);
-    uploadForm.append("roomId", roomId);
-    uploadForm.append("userId", userId);
+  uploadForm.append("image", file);
+  uploadForm.append("roomId", roomId.toString());
+  uploadForm.append("userId", userId.toString());
 
-    setInpaintForm(inpaintForm);
-    setUploadForm(uploadForm);
-  };
+  setInpaintForm(inpaintForm);
+  setUploadForm(uploadForm);
+};
 
   const getCursorPosition = (e) => {
     const { top, left } = canvasRef.current.getBoundingClientRect();
@@ -121,16 +146,21 @@ const Game2_upload = () => {
    }
 
    // 새로운 마스킹 좌표 설정
-   updatedInpaintForm.set("maskX1", Math.round(x - length / 2));
-   updatedInpaintForm.set("maskY1", Math.round(y - length / 2));
-   updatedInpaintForm.set("maskX2", Math.round(x + length / 2));
-   updatedInpaintForm.set("maskY2", Math.round(y + length / 2));
+   const maskX1 = Math.round(x - length / 2);
+   const maskY1 = Math.round(y - length / 2);
+   const maskX2 = Math.round(x + length / 2);
+   const maskY2 = Math.round(y + length / 2);
+
+   updatedInpaintForm.set("maskX1", maskX1);
+   updatedInpaintForm.set("maskY1", maskY1);
+   updatedInpaintForm.set("maskX2", maskX2);
+   updatedInpaintForm.set("maskY2", maskY2);
 
    console.log("Updated mask coordinates:", {
-     maskX1: Math.round(x - length / 2),
-     maskY1: Math.round(y - length / 2),
-     maskX2: Math.round(x + length / 2),
-     maskY2: Math.round(y + length / 2),
+     maskX1,
+     maskY1,
+     maskX2,
+     maskY2,
    });
 
    setInpaintForm(updatedInpaintForm);

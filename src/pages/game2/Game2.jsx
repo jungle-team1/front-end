@@ -1,7 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import NewButton from "../../components/button/newButton";
-import axios from "axios";
 import User from "../../components/game/User";
 import useImagesStore from "../../store/image/useImagesStore";
 import useRoomStore from "../../store/room/useRoomStore";

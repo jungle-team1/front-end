@@ -18,66 +18,31 @@ export const findDiff_start = async (roomId) => {
     }
 }
 
-export const findDiff_upload = async (uploadForm) => {
-    try {
-        const response = await axios({
-            method: "POST",
-            url: `${API_SERVER_URL}/api/findDiff/upload`,
-            data: {
-                uploadForm,
-            },
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
-        });
+export const findDiff_upload = (formData) => {
+  return axios.post(`${API_SERVER_URL}/api/findDiff/upload`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
 
-        return response.data;
-    } catch (error) {
-        console.error("이미지 처리 중 오류 발생:", error);
-    }
-}
+export const findDiff_og = (findDiffGameId, userId) => {
+  return axios.get(
+    `${API_SERVER_URL}/api/findDiff/og/${findDiffGameId}/${userId}`,
+  );
+};
 
-export const findDiff_og = async (findDiffGameId, userId) => {
-    try {
-        const response = await axios({
-            method: "GET",
-            url: `${API_SERVER_URL}/api/findDiff/og/${findDiffGameId}/${userId}`
-        });
+export const findDiff_inpaint = (formData) => {
+  return axios.post(`${API_SERVER_URL}/api/findDiff/inpaint`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
 
-        return response.data;
-    } catch (error) {
-        console.error("Error starting Find Diff game:", error);
-    }
-}
 
-export const findDiff_inpaint = async (inpaintForm) => {
-    try {
-        const response = await axios({
-            method: "POST",
-            url: `${API_SERVER_URL}/api/findDiff/inpaint`,
-            data: {
-                inpaintForm
-            },
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
-        });
-
-        return response.data;
-    } catch (error) {
-        console.error("백그라운드 작업 중 오류 발생:", error);
-    }
-}
-
-export const findDiff_gen = async (findDiffGameId, userId) => {
-    try {
-        const response = await axios({
-            method: "GET",
-            url: `${API_SERVER_URL}/api/findDiff/gen/${findDiffGameId}/${userId}`
-        });
-
-        return response;
-    } catch (error) {
-        console.error("Error starting Find Diff game:", error);
-    }
-}
+export const findDiff_gen = (findDiffGameId, userId) => {
+  return axios.get(
+    `${API_SERVER_URL}/api/findDiff/gen/${findDiffGameId}/${userId}`,
+  );
+};

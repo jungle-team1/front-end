@@ -37,28 +37,28 @@ const Result = () => {
     navigate(`/lobby/${roomId}`);
   };
 
-  return (
-    <div className="result inner">
-      <div className="title">
-        <strong>Result</strong>
-      </div>
-      <div className="player-list">
-        {players.map((player, index) => (
-          <PlayerResult
-            key={index}
-            player={`Player${index + 1}`}
-            nickname={player.nickname}
-            score={player.score}
-            liar_img={player.liar && <img src="/images/game/liar.png" />}
-            isWinner={player.isWinner}
-          />
-        ))}
-      </div>
-      <button onClick={goHome} className="homeBtn">
-        HOME
-      </button>
-    </div>
-  );
-};
+    return(
+        <div className="result inner">
+            <div className="title">
+                <strong>Result</strong>
+            </div>
+            <div className="player-list">
+
+                {players.map((player, index) => (
+                    <PlayerResult
+                        key={index}
+                        player={`Player${index + 1}`}
+                        nickname={player.nickname}
+                        score={player.keyword}
+                        liar_img={player.isLiar && <img src='/images/game/liar.png'/>}
+                        isWinner={player.isWinner}
+                    />
+                ))}
+
+            </div>
+            <button onClick={goHome} className="homeBtn">HOME</button>
+        </div>
+    );
+}
 
 export default Result;

@@ -113,7 +113,7 @@ const Clock = () => {
             style={{display : showHiddenImg ? 'block' : 'none'}} 
             className="hidden-img"></div>
         </div>
-        <Counter countDown={10} onCountdownComplete={handleCountdownComplete} />
+        <Counter countDown={50} onCountdownComplete={handleCountdownComplete} />
       </div>
     </>
   )

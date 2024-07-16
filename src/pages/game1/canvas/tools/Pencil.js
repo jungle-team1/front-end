@@ -1,8 +1,8 @@
 export const TOOL_PENCIL = 'pencil';
+export const ERASE = 'erase';
 
 export default (context) => {
   let drawItem = null;
-  let points = []; // 시작점
 
   const onMouseDown = (x, y, color, size) => {
     drawItem = {
@@ -11,7 +11,6 @@ export default (context) => {
       size,
       points: [{ x, y }]
     };
-    return [drawItem];
   }
 
   const drawLine = (drawItem, start, {x, y}) => {
@@ -36,27 +35,18 @@ export default (context) => {
     const start = drawItem.points.slice(-1)[0]; // 마지막 요소 추출
     drawLine(drawItem, start, newPoint);
     drawItem.points.push(newPoint);
-    points.push(newPoint);
-
-    return [drawItem];
   }
 
   const onMouseUp = (x, y) => {
     if (!drawItem) return [];
 
     onMouseMove(x,y) // 최종적으로 그리기
-    // const item  = { ...drawItem, end: {x,y} };
     drawItem = null;
-    points = [];
-    // return [ item ];
   }
-
-  const draw = () => {}
 
   return {
     onMouseDown,
     onMouseMove,
     onMouseUp,
-    draw,
   };
 }

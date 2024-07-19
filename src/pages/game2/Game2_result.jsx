@@ -76,7 +76,7 @@ const Game2_result = () => {
           <div className="imageBtnContainer">
             <NewButton
               text={"랭킹 확인"}
-              onClick={() => navigate("/lobby")}
+              onClick={() => navigate("/game2/rank")}
             ></NewButton>
           </div>
         </div>

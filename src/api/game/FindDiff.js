@@ -24,7 +24,6 @@ export const findDiff_upload = async (upload_form) => {
       `${API_SERVER_URL}/api/findDiff/upload`,
         upload_form
     );
-
     return response;
   } catch (error) {
     console.error("이미지 처리 중 오류 발생:", error);
@@ -77,3 +76,43 @@ export const findDiff_result = async (findDiffGameId) => {
     }
 }
 
+
+export const findDiff_submit_chance = async (userId, chance) => {
+  try {
+    const response = await axios.post(
+      `${API_SERVER_URL}/api/findDiff/chance`,
+      chance,
+      userId
+    );
+    return response;
+  } catch (error) {
+    console.error("남은 기회 전달 중 오류 발생:", error);
+    throw error;
+  }
+};
+
+export const findDiff_submit_correct = async (userId, correct) => {
+  try {
+    const response = await axios.post(
+      `${API_SERVER_URL}/api/findDiff/correct`,
+      userId,
+      correct
+    );
+    return response;
+  } catch (error) {
+    console.error("맞춘 개수 전달 중 오류 발생:", error);
+    throw error;
+  }
+};
+
+export const findDiff_leaderboard = async (gameId) => {
+    try {
+      const response = await axios.get(
+        `${API_SERVER_URL}/api/findDiff/leaderboard/${gameId}`,
+      );
+      return response;
+    } catch (error) {
+      console.error("순위 요청 중 오류 발생 :", error);
+      throw error;
+    }
+}

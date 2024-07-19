@@ -7,7 +7,7 @@ import "swiper/css";
 import FDGCanvas from "./canvas/FDGCanvas.jsx";
 import useFDGStore from "../../store/game/findDiffGame/useFDGStore.js";
 import useFDGCanvasStore from "../../store/game/findDiffGame/useFDGCanvasStore.js";
-import {findDiff_generated_images} from "../../api/game/FindDiff.js";
+import {findDiff_generated_images, findDiff_submit_correct, findDiff_submit_chance} from "../../api/game/FindDiff.js";
 import useUserStore from "../../store/user/useUserStore.js";
 import useFDGFileStore from "../../store/game/findDiffGame/useFDGFileStore.js";
 
@@ -21,6 +21,7 @@ const Game2 = () => {
   const [generatedImage, setGeneratedImage] = useState(null);
   const [chance, setChance] = useState(3);
   const [roundLength, setRoundLength] = useState(0);
+  const [correct, setCorrect] = useState(0);
 
   const { userId } = useUserStore();
   const { x, y, canvasClick } = useFDGCanvasStore();
@@ -42,6 +43,7 @@ const Game2 = () => {
         setGeneratedImage(res[round - 1]);
         setRoundLength(res.length);
         setChance(3);
+        setCorrect(0);
     }
 
     sync_func();
@@ -60,27 +62,37 @@ const Game2 = () => {
   }, [canvasClick])
 
   const checkAnswerAndCondition = () => {
-
     // 정답
     const maskX1 = generatedImage.maskX1;
     const maskY1 = generatedImage.maskY1;
     const maskX2 = generatedImage.maskX2;
     const maskY2 = generatedImage.maskY2;
     console.log(maskX1, maskX2, maskY1, maskY2);
-    console.log(x, y)
+    console.log(x, y);
 
     console.log(roundLength);
     if (maskX1 <= x && x <= maskX2 && maskY1 <= y && y <= maskY2) {
-      round === roundLength ? navigate(`/game2/result`) : navigate(`/game2?round=${round + 1}`);
+      setCorrect(correct + 1);
+      findDiff_submit_chance(userId, chance);
+      if (round === roundLength) {
+        findDiff_submit_correct(userId, score);
+        navigate(`/game2/result`);
+      } else {
+        navigate(`/game2?round=${round + 1}`);
+      }
     } else {
       setChance(chance - 1);
 
       if (chance === 0) {
-        round === roundLength ? navigate(`/game2/result`) : navigate(`/game2?round=${round + 1}`);
+        if (round === roundLength) {
+          findDiff_submit_correct(userId, score);
+          navigate(`/game2/result`);
+        } else {
+          navigate(`/game2?round=${round + 1}`);
+        }
       }
     }
-
-  }
+  };
   
 
   return (

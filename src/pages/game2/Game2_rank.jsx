@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import useUserStore from "../../store/user/useUserStore";
-import { findDiff_leaderboard } from "../../api/game/FindDiff";
+import useUserStore from "../../store/user/useUserStore.js";
+import { findDiff_leaderboard } from "../../api/game/FindDiff.js";
 import useFDGStore from "../../store/game/findDiffGame/useFDGStore.js";
 
 

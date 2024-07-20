@@ -1,0 +1,144 @@
+.code-container {
+  resize: both;
+  overflow: hidden;
+  margin: auto;
+  width: 80vw;
+  height: 80vh;
+  min-width: 420px;
+  min-height: 255px;
+  position: relative;
+  --glow-margin: 70px;
+  filter: drop-shadow(0 0 75px rgb(128 0 255 / 0.25));
+}
+
+.code-container::after {
+  content: "";
+  background: linear-gradient(
+    to right,
+    transparent,
+    black 25px, black 110px,
+    transparent 110px 175px,
+    black 175px, black calc(100% - 25px),
+    transparent
+  );
+  position: absolute;
+  top: 125px;
+  left: var(--glow-margin);
+  right: var(--glow-margin);
+  height: 4px;
+  display: block;
+  z-index: 90;
+  opacity: 0.5;
+}
+
+.glow-container {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  z-index: 2;
+  pointer-events: none;
+  --glow: drop-shadow(0 0 1px violet);
+  filter: var(--glow) brightness(1.5) drop-shadow(0 0 10px violet);
+}
+
+.augs {
+  --aug-rect-l1: initial;
+  --aug-l1-width: 110px;
+  --aug-l1-height: 4px;
+  --aug-l-center: 57px;
+  
+  --aug-rect-r1: initial;
+  --aug-r1-width: (100% - 125px - 50px);
+  --aug-r1-height: 4px;
+  --aug-r-center: 57px;
+  
+  --aug-clip-tr1: initial;
+  --aug-tr1-alt-join-out: initial;
+  --aug-tr1: 17px;
+  --aug-clip-tr2: initial;
+  --aug-tr2: 17px;
+  --aug-tr-extend1: 50px;
+  
+  --aug-round-tl1: initial;
+  --aug-tl1: 8px;
+  --aug-round-br1: initial;
+  --aug-br1: 8px;
+  margin: auto;
+  width: calc(100% - var(--glow-margin) * 2);
+  height: calc(100% - var(--glow-margin) * 2);
+}
+
+.glow-container .augs {
+  --aug-border: initial;
+  --aug-border-all: 2px;
+  --aug-border-bg: linear-gradient(to bottom left, rebeccapurple, orange);
+}
+
+section.augs {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  --aug-inlay: initial;
+  --aug-inlay-all: 2px;
+  --aug-inlay-bg: url(http://augmented-ui.com/img/propjockey.png)
+    center 70% / auto 70% no-repeat;
+  --aug-inlay-opacity: 0.25;
+}
+section.augs::before {
+  filter: brightness(0.2) blur(10px);
+}
+
+.dots {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 110px;
+  height: 50px;
+  --red: #fc199a;
+  --yellow: #ffcc00;
+  --green: #61e2ff;
+  --close: radial-gradient(circle, var(--red), var(--red) 7px, transparent 8px);
+  --min: radial-gradient(circle, var(--yellow), var(--yellow) 7px, transparent 8px);
+  --max: radial-gradient(circle, var(--green), var(--green) 7px, transparent 8px);
+  background: var(--close) -28px no-repeat,
+              var(--min) -2px no-repeat,
+              var(--max) 24px no-repeat;
+  filter: brightness(0.5);
+  opacity: 0.75;
+  cursor: pointer;
+  border: none;
+}
+
+
+
+
+body {
+  display: grid;
+  min-height: 100vh;
+  width: 100vw;
+  --c: rgb(0 0 0 / 0.95);
+  --bgb: linear-gradient(var(--c), var(--c));
+  --bg: repeating-conic-gradient(
+    from 7.5deg at center center,
+    hsl(200, 100%, 0%) 0deg 15deg,
+    hsl(200, 100%, 60%) 10deg 30deg
+  );
+  background: var(--bgb), var(--bg), black;
+}
+
+* {
+  font: normal 1em sans-serif;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+/* https://marketplace.visualstudio.com/items?itemName=webrender.synthwave-x-fluoromachine */
+.bg {
+  background: repeating-linear-gradient(
+    to top,
+    rgba(255, 255, 255, 0.03) 0px 2px,
+    transparent 2px 4px
+  ),
+  linear-gradient(to bottom, #200933 75%, #3d0b43);
+}

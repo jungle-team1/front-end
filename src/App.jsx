@@ -25,6 +25,7 @@ import Game2_Music from "./components/bgm/Game2_Music.jsx";
 import LobbyMusic from "./components/bgm/LobbyMusic.jsx";
 import LaserPointer from "./pages/game1/LaserPointer.jsx";
 import Result_Music from "./components/bgm/Result_Music.jsx";
+import Test from "./pages/Test.jsx";
 
 function App() {
   const nav = useNavigate();
@@ -79,6 +80,8 @@ function App() {
         <Route path="/temp/login" element={<Login />} />
 
         <Route path="/laser" element={<LaserPointer />} />
+
+        <Route path="/test" element={<Test />} />
       </Routes>
     </>
   );

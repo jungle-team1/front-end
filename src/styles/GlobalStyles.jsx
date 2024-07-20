@@ -12,17 +12,24 @@ const GlobalStyles = createGlobalStyle`
   body {
     width: 100vw;
     height: 100vh;
+    background-image: url('/images/background/background-img.png');
 
-    background-image: url('/images/background-img.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    
+  }
+
+  inner::afters {
+    filter:brightness(0.1);
+    content = "";
   }
 
   .inner {
     min-width: 900px;
     height: 100vh;
     width: 100vw;
+
     
     display: flex;
     align-items: center;

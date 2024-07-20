@@ -17,6 +17,7 @@ import useAudioStore from "../../store/bgm/useAudioStore.js";
 import Keyword from "../../components/game/Keyword.jsx";
 import KeywordText from "../../components/game/KeywordText.jsx";
 import LaserPointer from "./LaserPointer.jsx";
+import Gaugebar from "./Gaugebar.jsx";
 
 const Game1 = () => {
   const [searchParams] = useSearchParams();
@@ -103,44 +104,47 @@ const Game1 = () => {
     setParentHeight(containerRef.current.clientHeight);
   }, [windowSize]);
 
+  
+
   return (
-    <div className="inner" key={round}>
-      {showModal && isDrawing && <Keyword keyword={keyword} />}
-      {showModal && !isDrawing && <Keyword keyword={"다른 플레이어의 차례"} />}
-      <div className="game container">
-        <div className="left-section">
-          <User />
-        </div>
-        <div className="center">
-          <div className="keyword-title">
-            {titleOn && isDrawing && <KeywordText text={keyword} />}
-            {titleOn && !isDrawing && (
-              <KeywordText text={"다른 플레이어의 차례"} />
-            )}
-            {/* <hr /> */}
+    <div className="mainwrap" >
+      <div className="inner" key={round}>
+        {showModal && isDrawing && <Keyword keyword={keyword} />}
+        {showModal && !isDrawing && <Keyword keyword={"다른 플레이어의 차례"} />}
+        <div className="game container">
+          <div className="left-section">
+            <User />
           </div>
-          <div className="drawing-container">
-            <div ref={containerRef} className="canvas-container">
-              <Drawing
-                width={parentwidth * 0.9}
-                height={parentheight * 0.9}
-                zIndex={isDrawing ? 10 : 9}
-                position={isDrawing ? "absolute" : "relative"}
-              />
-              <LaserPointer
-                width={parentwidth * 0.9}
-                height={parentheight * 0.9}
-                zIndex={!isDrawing ? 10 : 9}
-                position={!isDrawing ? "absolute" : "relative"}
-              />
+          <div className="center">
+            <Gaugebar />
+            <div className="keyword-title">
+              {titleOn && isDrawing && <KeywordText text={keyword} />}
+              {titleOn && !isDrawing && (
+                <KeywordText text={"다른 플레이어의 차례"} />
+              )}
+              {/* <hr /> */}
+            </div>
+            <div className="drawing-container">
+              <div ref={containerRef} className="canvas-container">
+                <Drawing
+                  width={512}
+                  height={512}
+                  zIndex={isDrawing ? 10 : 9}
+                  position={isDrawing ? "absolute" : "relative"}
+                />
+                <LaserPointer
+                  width={parentwidth * 0.9}
+                  height={parentheight * 0.9}
+                  zIndex={!isDrawing ? 10 : 9}
+                  position={!isDrawing ? "absolute" : "relative"}
+                />
+              </div>
             </div>
           </div>
-          <div className="canvas-tools">
+          <div className="right-section">
+            <Tools />
+            <Palette />
           </div>
-        </div>
-        <div className="right-section">
-          <Tools />
-          <Palette />
         </div>
       </div>
     </div>

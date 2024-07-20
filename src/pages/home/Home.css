@@ -1,5 +1,5 @@
 .home.background {
-  background-image: url('/images/background-img.png');
+  background-image: url('/images/background/bg2.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -11,16 +11,27 @@
   justify-content: center;
 }
 
+@font-face {
+  font-family: 'good';
+  src: url('../../fonts/good.otf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: 'good', sans-serif;
+}
 /* 로고 */
 .home-title {
-  height: 15%;
+  height: 25%;
   width: 70%;
   min-width: 1060px;
 
   position: relative;
-  top: 25%;
+  top: 35%;
 
-  font-family: "keania One";
+  font-family: "good";
+  
 
   display: flex;
   justify-content: center;
@@ -32,13 +43,14 @@
   text-align: center;
   font-size: 8vw;
 }
-.logo-title#black {
+/* .logo-title#black {
   top: 20px;
   left: 15px;
-}
+} */
 .logo-title#white {
   color: white;
   top: 0;
+  text-shadow: 0 -2px 20px white;
 }
 
 #home-logo {
